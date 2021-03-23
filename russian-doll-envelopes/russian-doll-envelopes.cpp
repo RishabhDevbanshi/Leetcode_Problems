@@ -6,9 +6,25 @@ public:
         return arr1[0] < arr2[0];
     }
     
+    int lb(int start,int end,int ele,vector<int> &arr)
+    {
+        int ans = 0;
+        while(start <= end)
+        {
+            int mid = start + (end - start)/2;
+            if(arr[mid] == ele) return mid;
+            else if(arr[mid] > ele)
+            {
+                ans = mid;
+                end = mid-1;
+            }
+            else start = mid + 1;
+        }
+        return ans;
+    }
+    
     int maxEnvelopes(vector<vector<int>>& envelopes) {
         int n = envelopes.size();
-        int *dp = new int[n]();
         sort(envelopes.begin(),envelopes.end(),myCompare);
         
         // for(int i=0;i<n;i++)
@@ -17,22 +33,20 @@ public:
         //     cout<<"\n";
         // }
         
-        int ans = 1;
-        dp[0] = 1;
-        
+        vector<int> dp;
+        dp.push_back(envelopes[0][1]);
         for(int i=1;i<n;i++)
         {
-            int mx = 0;
-            for(int j=0;j<i;j++)
+            if(envelopes[i][1] > dp.back()) dp.push_back(envelopes[i][1]);
+            else
             {
-                if(envelopes[i][1] > envelopes[j][1]) mx = max(mx,dp[j]);
+                int idx = lb(0,dp.size(),envelopes[i][1],dp);
+                dp[idx] = envelopes[i][1];
             }
-            dp[i] = mx + 1;
-            cout<<dp[i]<<" ";
-            ans = max(ans,dp[i]);
         }
         
-        delete[] dp;
+        int ans = dp.size();
+        dp.clear();
         
         return ans;
     }
