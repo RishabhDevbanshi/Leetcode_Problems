@@ -1,25 +1,39 @@
 class Solution {
 public:
-    int lengthOfLIS(vector<int>& arr) {
-        int n = arr.size();
-        int *dp = new int[n]();
-        dp[0] = 1;
-        int ans = 1;
-        for(int i=1;i<n;i++)
+    int lb(int start,int end,int target,vector<int> &arr)
+    {
+        int ans = 0;
+        while(start <= end)
         {
-            int mx = 0;
-            for(int j=0;j<i;j++)
+            int mid = start + (end - start)/2;
+            if(arr[mid] == target) return mid;
+            else if(arr[mid] > target) 
             {
-                if(arr[j] < arr[i])
-                {
-                    mx = max(mx,dp[j]);
-                }
+                ans = mid;
+                end = mid - 1;
             }
-            dp[i] = mx  + 1;
-            ans = max(ans,dp[i]);
+            else start = mid + 1;
         }
         
-        delete[] dp;
+        return ans;
+    }
+    
+    int lengthOfLIS(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> dp;
+        dp.push_back(arr[0]);
+        for(int i=1;i<n;i++)
+        {
+            if(arr[i] > dp.back()) dp.push_back(arr[i]);
+            else
+            {
+                int idx = lb(0,dp.size(),arr[i],dp);
+                dp[idx] = arr[i];
+            }
+        }
+        
+        int ans = dp.size();
+        dp.clear();
         return ans;
     }
 };
