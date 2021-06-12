@@ -1,49 +1,49 @@
 #define pii pair<int,int>
+
 class Solution {
 public:
-    int networkDelayTime(vector<vector<int>>& times, int n, int src) {
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        int m = times.size();
         vector<pii> arr[n+1];
-        int ans = 0;
         
-        for(int i=0;i<times.size();i++)
+        for(int i=0;i<m;i++)
         {
-            int u = times[i][0] , v = times[i][1] , w = times[i][2];
-            // cout<<u<<" "<<v<<" "<<w<<"\n";
-            arr[u].push_back({v,w});
+            int u = times[i][0] , v = times[i][1], wt = times[i][2];
+            arr[u].push_back({v,wt});
         }
         
-        vector<int> dist(n+1,INT_MAX);
-        dist[src] = 0;
-        
         vector<bool> vis(n+1,false);
+        vector<int> dist(n+1,INT_MAX);
+        dist[k] = 0;
         
-        priority_queue<pii,vector<pii>,greater<pii>> pq;
-        pq.push({dist[src],src});
+        priority_queue<pii,vector<pii>,greater<pii>> pq; // {distance,vertex}
+        pq.push({dist[k],k});
         
         while(!pq.empty())
         {
-            int prev_node = pq.top().second;
+            int v = pq.top().second;
             pq.pop();
             
-            if(vis[prev_node]) continue;
+            if(vis[v]) continue;
+            vis[v] = true;
             
-            vis[prev_node] = true;
-            
-            for(auto p : arr[prev_node])
+            for(auto p : arr[v])
             {
-                int node = p.first , d = p.second;
-                
-                if(dist[prev_node] + d < dist[node])
+                int u = p.first , wt = p.second;
+                if(dist[u] > dist[v]+wt)
                 {
-                    dist[node] = dist[prev_node] + d;
-                    pq.push({dist[node],node});
+                    dist[u] = dist[v]+wt;
+                    pq.push({dist[u],u});
                 }
             }
         }
         
-        for(int i=1;i<=n;i++) ans = max(ans,dist[i]);
-        
-        if(ans == INT_MAX) ans = -1;
+        int ans = 0;
+        for(int i=1;i<=n;i++)
+        {
+            if(dist[i] == INT_MAX) return -1;
+            ans = max(ans,dist[i]);
+        }
         
         return ans;
     }
