@@ -1,3 +1,4 @@
+[Discussion Post (created on 13/5/2021 at 11:10)](https://leetcode.com/problems/number-of-rectangles-that-can-form-the-largest-square/discuss/1268825/C%2B%2B-Recursive-Solution-oror-O(n)-time-ACCEPTED)  
 <h2>1725. Number Of Rectangles That Can Form The Largest Square</h2><h3>Easy</h3><hr><div><p>You are given an array <code>rectangles</code> where <code>rectangles[i] = [l<sub>i</sub>, w<sub>i</sub>]</code> represents the <code>i<sup>th</sup></code> rectangle of length <code>l<sub>i</sub></code> and width <code>w<sub>i</sub></code>.</p>
 
 <p>You can cut the <code>i<sup>th</sup></code> rectangle to form a square with a side length of <code>k</code> if both <code>k &lt;= l<sub>i</sub></code> and <code>k &lt;= w<sub>i</sub></code>. For example, if you have a rectangle <code>[4,6]</code>, you can cut it to get a square with a side length of at most <code>4</code>.</p>
