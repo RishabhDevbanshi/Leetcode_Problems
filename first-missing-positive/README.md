@@ -1,3 +1,4 @@
+[Discussion Post (created on 30/6/2021 at 14:5)](https://leetcode.com/problems/first-missing-positive/discuss/1371896/Python-O(n)-time-and-O(1)-space-Accepted-Solution-with-Explanation)  
 <h2>41. First Missing Positive</h2><h3>Hard</h3><hr><div><p>Given an unsorted integer array <code>nums</code>, return the smallest missing positive integer.</p>
 
 <p>You must implement an algorithm that runs in <code>O(n)</code> time and uses constant extra space.</p>
