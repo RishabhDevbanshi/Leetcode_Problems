@@ -1,34 +1,31 @@
+#define ll long long
+
 class Solution {
 public:
-    int firstMissingPositive(vector<int>& nums) {
-        int n = nums.size();
-        
+    int firstMissingPositive(vector<int>& arr) {
+        int n = arr.size();
+        vector<ll> nums(arr.begin(),arr.end());
+        bool hasN = false;
         for(int i=0;i<n;i++)
         {
-            if(nums[i] <= 0 or nums[i] > n) nums[i] = n+1;
+            if(nums[i] == n) hasN = true;
+            if(nums[i] <= 0 or nums[i] >= n) nums[i] = 0;
         }
         
         for(int i=0;i<n;i++)
         {
-            int num = abs(nums[i]);
-            
-            if(num > n)
-                continue;
-            
-            num--;
-            
-            if(nums[num] > 0)
-            {
-                nums[num] *= -1;
-            }
+            ll val = nums[i]%n;
+            if(val == 0 or nums[val]/n == val) { continue;}
+            nums[val] += val * n;
         }
+        // for(int i=0;i<n;i++) cout<<nums[i]<<" ";
         
-        for(int i=0;i<n;i++)
+        for(int i=1;i<n;i++) 
         {
-            if(nums[i] >= 0)
-                return i+1;
+            if(i != nums[i]/n)
+                return i;
         }
         
-        return n+1;
+        return hasN?n+1:n;
     }
 };
