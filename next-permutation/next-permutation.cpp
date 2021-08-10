@@ -1,7 +1,6 @@
 class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
-        
         bool ok = true, ko = true;
         int n = nums.size();
         
@@ -42,6 +41,5 @@ public:
         // for(int ele : nums) cout<<ele<<" ";
         
         sort(nums.begin() + idx + 1,nums.end());
-        
     }
 };
