@@ -1,36 +1,37 @@
 class Solution {
-     vector<int> sessions;
-    unordered_map<string , int> dp;
     
-    string encodeState(int pos, vector<int>& sessions) {
-        vector<int> copy = sessions;
-        sort(copy.begin(), copy.end());
+    vector<int> arr;
+    unordered_map<string,int> dp;
+    
+    string makeKey(vector<int> &arr,int pos)
+    {
+        string str = to_string(pos) + '$';
+        vector<int> copy = arr;
+        sort(copy.begin(),copy.end());
+        for(auto val : copy) str += to_string(val) + '$';
         
-        string key = to_string(pos) + "$";
-        for (int i = 0; i < copy.size(); i++)
-            key += to_string(copy[i]) + "$";
-        
-        return key;
+        return str;
     }
     
-    int solve(vector<int>& tasks, int n, int sessionTime, int pos) {
-        if (pos >= n )
-            return 0;
+    int recur(vector<int> &tasks,int sessionTime,int pos)
+    {
+        if(pos >= tasks.size()) return 0;
         
-        string key = encodeState(pos, sessions);
+        string key = makeKey(arr,pos);
         
-        if (dp.find(key) != dp.end())
-            return dp[key];
+        if(dp.find(key) != dp.end()) return dp[key];
         
-        sessions.push_back(tasks[pos]);
-        int ans = 1 + solve(tasks, n, sessionTime, pos + 1);
-        sessions.pop_back();
+        arr.push_back(tasks[pos]);
+        int ans = 1 + recur(tasks,sessionTime,pos+1);
+        arr.pop_back();
         
-        for (int i = 0; i < sessions.size();i++) {
-            if (sessions[i] + tasks[pos] <= sessionTime) {
-                sessions[i] += tasks[pos];
-                ans = min(ans, solve(tasks, n, sessionTime, pos + 1));
-                sessions[i] -= tasks[pos];
+        for(int i=0;i<arr.size();i++)
+        {
+            if(arr[i] + tasks[pos] <= sessionTime)
+            {
+                arr[i] += tasks[pos];
+                ans = min(ans,recur(tasks,sessionTime,pos+1));
+                arr[i] -= tasks[pos];
             }
         }
         
@@ -38,7 +39,6 @@ class Solution {
     }
 public:
     int minSessions(vector<int>& tasks, int sessionTime) {
-        int n = tasks.size();
-        return solve(tasks, n, sessionTime, 0);
+        return recur(tasks,sessionTime,0);
     }
 };
