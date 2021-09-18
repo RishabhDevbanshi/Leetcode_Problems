@@ -1,29 +1,27 @@
 class Solution {
-    string mp[10] = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
-    
-    void recur(string str,string ans,vector<string> &arr)
+    string keypad[10] = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+
+    void recur(string &A,int idx,vector<string> &res,string &str)
     {
-        if(str.size() == 0) 
+        if(idx == A.size())
         {
-            if(ans != "") arr.push_back(ans);
+            if(str.size() > 0) res.push_back(str);
             return;
         }
-        
-        string ros = str.substr(1);
-        
-        int idx = str[0] - '0';
-        
-        for(char ch : mp[idx])
+
+        int i = A[idx] - '0';
+        for(auto ch : keypad[i])
         {
-            recur(ros,ans + ch,arr);
+            str.push_back(ch);
+            recur(A,idx+1,res,str);
+            str.pop_back();
         }
-        
     }
-    
 public:
     vector<string> letterCombinations(string digits) {
-        vector<string> arr;
-        recur(digits,"",arr);
-        return arr;
+        vector<string> res;
+        string str;
+        recur(digits,0,res,str);
+        return res;
     }
 };
