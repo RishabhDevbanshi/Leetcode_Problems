@@ -13,8 +13,6 @@ class Solution {
             
             swap(nums[l],nums[i]);
             permute(nums,res,l+1,r);
-            // swap(nums[l],nums[i]);
-            
         }
     }
 public:
