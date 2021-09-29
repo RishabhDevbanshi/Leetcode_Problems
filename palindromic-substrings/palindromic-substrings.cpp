@@ -1,26 +1,25 @@
 class Solution {
+    int recur(vector<vector<int>> &dp,string str, int start,int end)
+    {
+        if(start >= end) return 1;
+        if(dp[start][end] != -1) return dp[start][end];
+        
+        return dp[start][end] = str[start] == str[end] ? recur(dp,str,start+1,end-1) : 0;
+    }
 public:
     int countSubstrings(string str) {
-        int n = str.size();
-        int count = 0;
-        vector<vector<bool>> dp(n,vector<bool> (n,false));
+        int n = str.size(), cnt = 0;
+        vector<vector<int>> dp(n,vector<int>(n,-1));
         
-        for(int gap = 0; gap < n; gap++)
+        for(int i=0;i<n;i++)
         {
-            for(int i=0,j=gap; j<n; i++,j++)
+            for(int j=i;j<n;j++)
             {
-                if(gap == 0) dp[i][j] = true;
-                else if(gap == 1) dp[i][j] = str[i] == str[j];
-                else
-                {
-                    if(str[i] == str[j] and dp[i+1][j-1]) dp[i][j] =true;
-                }
-                
-                if(dp[i][j]) count++;
+                cnt += recur(dp,str,i,j);
             }
         }
         
-        dp.clear();
-        return count;
+        
+        return cnt;
     }
 };
