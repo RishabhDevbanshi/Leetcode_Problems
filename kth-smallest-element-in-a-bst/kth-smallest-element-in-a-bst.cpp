@@ -11,17 +11,31 @@
  */
 class Solution {
 public:
-    vector<int> arr;
-    void inorder(TreeNode *root)
-    {
-        if(root == NULL) return ;
-        inorder(root->left);
-        arr.push_back(root->val);
-        inorder(root->right);
-    }
-    int kthSmallest(TreeNode* root, int k) {
-        arr.clear();
-        inorder(root);
-        return arr[k-1];
+    int kthSmallest(TreeNode* A, int k) {
+        stack<TreeNode*> st;
+        int cnt = 0;
+        TreeNode* temp = A; 
+
+        while(!st.empty() || temp)
+        {
+            while(temp)
+            {
+                st.push(temp);
+                temp = temp->left;
+            }
+
+            temp = st.top();
+            cnt++;
+            
+            if(cnt == k) 
+                return temp->val;
+            // cout<<st.top()->val<<" ";
+            st.pop();
+
+            temp = temp->right;
+        }
+
+        // cout<<"\n";
+        return 0;
     }
 };
