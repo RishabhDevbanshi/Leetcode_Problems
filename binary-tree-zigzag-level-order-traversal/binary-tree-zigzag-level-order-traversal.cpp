@@ -12,55 +12,30 @@
 class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        vector<int> arr;
-        vector<vector<int>> level;
-        
-        if(root == NULL) return level;
-        queue<TreeNode*> pendingNode;
-        pendingNode.push(root);
-        pendingNode.push(NULL);
-        arr.push_back(root->val);
-        level.push_back(arr);
-        arr.clear();
-        
-        while(!pendingNode.empty())
+        vector<vector<int>> res;
+        if(!root) return res;
+        queue<TreeNode*> q;
+        q.push(root);
+        bool flag = true;
+        while(!q.empty())
         {
-            TreeNode* node = pendingNode.front();
-            pendingNode.pop();
-            
-            if(node)
+            int sz = q.size();
+            vector<int> arr;
+            for(int i=0;i<sz;i++)
             {
-                if(node->left)
-                {
-                    arr.push_back(node->left->val);
-                    pendingNode.push(node->left);
-                }
-                if(node->right)
-                {
-                    arr.push_back(node->right->val);
-                    pendingNode.push(node->right);
-                }
+                TreeNode *node = q.front();
+                q.pop();
+                
+                if(node->left) q.push(node->left);
+                if(node->right) q.push(node->right);
+                
+                arr.push_back(node->val);
             }
-            else
-            {
-                if(pendingNode.empty()) break;
-                else
-                {
-                    pendingNode.push(NULL);
-                    int sz = level.size();
-                    if(sz%2 == 0)
-                    {
-                        level.push_back(arr);
-                    }
-                    else
-                    {
-                        reverse(arr.begin(),arr.end());
-                        level.push_back(arr);
-                    }
-                    arr.clear();
-                }
-            }
+            if(!flag) reverse(arr.begin(),arr.end());
+            flag = 1-flag;
+            res.push_back(arr);
         }
-        return  level;
+        
+        return res;
     }
 };
