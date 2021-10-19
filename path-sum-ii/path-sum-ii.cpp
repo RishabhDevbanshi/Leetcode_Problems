@@ -10,28 +10,32 @@
  * };
  */
 class Solution {
-public:
-    void util(TreeNode* root,int targetSum,vector<vector<int>> &arr,vector<int> helper)
+    void util(TreeNode *root,int tar,vector<int> arr,vector<vector<int>> &res)
     {
-        if(root and !root->left and !root->right and targetSum == root->val)
+        if(!root) return;
+        arr.push_back(root->val);
+        tar -= root->val;
+        if(!root->left and !root->right)
         {
-            helper.push_back(root->val);
-            arr.push_back(helper);
+            // for(auto val : arr) cout<<val<<" ";
+            // cout<<endl;
+            if(tar == 0 and arr.size() > 0) res.push_back(arr);
             return;
         }
         
-        if(root == NULL) return;
         
-        helper.push_back(root->val);
-        int val = root->val;
-        util(root->left,targetSum-val,arr,helper);
-        util(root->right,targetSum-val,arr,helper);
+        
+        util(root->left , tar , arr, res);
+        util(root->right , tar , arr , res);
+        
+        arr.pop_back();
     }
-    
+public:
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
-        vector<vector<int>> arr;
-        vector<int> helper;
-        util(root,targetSum,arr,helper);
-        return arr;
+        vector<vector<int>> res;
+        if(!root) return res;
+        vector<int> arr;
+        util(root,targetSum,arr,res);
+        return res;
     }
 };
