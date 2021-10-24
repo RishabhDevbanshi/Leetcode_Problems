@@ -11,14 +11,23 @@
  */
 class Solution {
 public:
-    vector<int> arr;
+    
     vector<int> preorderTraversal(TreeNode* root) {
-        if(root == NULL) return arr;
+       vector<int> res;
+        if(!root) return res;
+        stack<pair<TreeNode *,int>> st;
+        st.push({root,0});
+        while(!st.empty())
+        {
+            auto p = st.top(); st.pop();
+            auto node = p.first; int cnt = p.second;
+            // cout<<node->val<<" "<<cnt<<"\n";
+            if(cnt<2) st.push({node,cnt+1});
+            if(cnt == 0) res.push_back(node->val);
+            else if(cnt == 1) {if(node->left) st.push({node->left,0});}
+            else if(cnt == 2){ if(node->right) st.push({node->right,0});}
+        }
         
-        arr.push_back(root->val);
-        preorderTraversal(root->left);
-        preorderTraversal(root->right);
-        
-        return arr;
+        return res;
     }
 };
