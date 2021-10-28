@@ -5,25 +5,37 @@
 
 class Solution {
 public:
-    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
-        vector<vector<int>> res;
-        auto comp = [&nums1,&nums2](pi a,pi b){
-            return nums1[a.fs] + nums2[a.sc] > nums1[b.fs] + nums2[b.sc];
-        };
-        priority_queue<pi,vector<pi>,decltype(comp)> pq(comp);
-        pq.push({0,0});
+    vector<vector<int>> kSmallestPairs(vector<int>& A, vector<int>& B, int k) {
+        priority_queue<vi,vector<vi> , greater<vi>> pq;
+        sort(A.begin(),A.end());
+        sort(B.begin(),B.end());
+        set<vi> st;
+
+        pq.push({A[0] + B[0], 0 , 0});
+
         int cnt = 0;
-        while(!pq.empty() and cnt<k)
+        vector<vi> res;
+        st.insert({0,0});
+        while(!pq.empty() && cnt < k)
         {
             cnt++;
-            pi p = pq.top();
-            pq.pop();
-            res.push_back({nums1[p.fs],nums2[p.sc]});
-            if(p.fs + 1 < nums1.size())
-                pq.push({p.fs + 1 , p.sc});
-            if(p.fs==0 and p.sc + 1 < nums2.size())
-                pq.push({p.fs,p.sc+1});
+            vi arr = pq.top() ; pq.pop();
+            int sum = arr[0] , fidx = arr[1] , sidx = arr[2];
+            res.push_back({A[fidx] , B[sidx]});
+            if(fidx+1 < A.size() and sidx < B.size() and st.find({fidx+1,sidx}) == st.end())
+            {
+                sum = A[fidx+1] + B[sidx];
+                pq.push({sum,fidx+1,sidx});
+                st.insert({fidx+1,sidx});
+            }
+            if(fidx < A.size() and sidx+1 < B.size() and st.find({fidx,sidx+1}) == st.end())
+            {
+                sum = A[fidx] + B[sidx + 1];
+                pq.push({sum,fidx,sidx+1});
+                st.insert({fidx,sidx+1});
+            }
         }
-        return res;
+
+        return  res;
     }
 };
