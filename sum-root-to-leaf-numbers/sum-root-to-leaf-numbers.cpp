@@ -10,25 +10,25 @@
  * };
  */
 class Solution {
-    long long sum;
+    long long sum = 0;
     void recur(TreeNode *root,long long num)
     {
         if(!root) return;
         num *= 10;
         num += root->val;
-        if(!root->left and !root->right) {
+        if(!root->left and !root->right)
+        {
             sum += num;
-            return  ;
+            return;
         }
         
-        if(root->left) recur(root->left,num);
-        if(root->right) recur(root->right , num);
+        recur(root->left,num);
+        recur(root->right,num);
     }
 public:
     int sumNumbers(TreeNode* root) {
         sum = 0;
-        long long num = 0;
-        recur(root,num);
+        recur(root,0);
         return sum;
     }
 };
