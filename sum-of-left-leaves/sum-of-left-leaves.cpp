@@ -12,17 +12,19 @@
 class Solution {
     int dfs(TreeNode *root)
     {
-        if(!root || (!root->left and !root->right)) return 0;
-        int sum = dfs(root->left);
-        sum += dfs(root->right);
+        if(!root) return 0;
         
-        if(root->left and !root->left->left and !root->left->right)
-            sum += root->left->val;
+        int leftSum = dfs(root->left);
+        int rightSum = dfs(root->right);
         
-        return sum;
+        if(root->left and (!root->left->right and !root->left->left))
+            return root->left->val + leftSum + rightSum;
+        else return leftSum + rightSum;
     }
 public:
     int sumOfLeftLeaves(TreeNode* root) {
-        return dfs(root);
+        if(!root) return 0;
+        int sum = dfs(root);
+        return sum;
     }
 };
