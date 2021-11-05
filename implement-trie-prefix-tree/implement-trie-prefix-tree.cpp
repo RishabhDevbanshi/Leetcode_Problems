@@ -1,101 +1,76 @@
-class TrieNode
-{
-    public:
+struct Node{
     char data;
-    bool isTerminal = false;
-    TrieNode **children;
+    bool isTerminal;
+    Node **children;
     
-    TrieNode(char data)
+    Node(char data)
     {
         this->data = data;
-        children = new TrieNode*[26];
+        isTerminal = false;
+        children = new Node*[26];
         for(int i=0;i<26;i++) children[i] = NULL;
-        bool isTerminal = false;
     }
 };
 
 class Trie {
-    public:
-    /** Initialize your data structure here. */
-    TrieNode* root;
+    Node *trie;
     
-    Trie() {
-        root = new TrieNode('\0');       
-    }
-    
-    private:
-    
-    void insert(TrieNode* root,string word)
+    void insert(Node *trie,string word)
     {
-        if(word.size()==0)
+        if(word.size() == 0) 
         {
-            root->isTerminal = true;
+            trie->isTerminal = true;
             return;
         }
+        int i = word[0] - 'a';
+        Node *child;
+        if(trie->children[i]) child = trie->children[i];
+        else {
+            child = new Node(word[0]);
+            trie->children[i] = child;
+        }
         
-        int index = word[0] - 'a';
-        TrieNode* child;
-        if(root->children[index])
-        {
-            child = root->children[index];
-        }
-        else
-        {
-            child = new TrieNode(word[0]);
-            root->children[index] = child;
-        }
         insert(child,word.substr(1));
     }
     
-    bool search(TrieNode* root,string word)
+    bool search(Node *trie,string word)
     {
-        if(root == NULL and word.size()>0) return false;
-        if(root == NULL) return true;
-        if(word.size()==0)
-        {
-            if(root->isTerminal) return true;
-            else return false;
-        }
+        if(trie == NULL and word.size()>0) return  false;
+        else if(!trie) return  true;
+        if(word.size() == 0) return trie->isTerminal;
         
-        int index = word[0] - 'a';
-        if(root->children[index] != NULL)
-        {
-            return search(root->children[index],word.substr(1));
-        }
-        else return false;
+        int i = word[0] - 'a';
+        if(!trie->children[i]) return false;
+        
+        return search(trie->children[i],word.substr(1));
     }
     
-    
-    bool startsWith(TrieNode* root,string word)
+    bool startsWith(Node *trie,string word)
     {
-        if(word.size()==0) return true;
+        if(trie == NULL and word.size()>0) return  false;
+        else if(!trie) return  true;
+        if(word.size() == 0) return true;
         
-        int index = word[0] - 'a';
-        if(root->children[index])
-        {
-            return startsWith(root->children[index],word.substr(1));
-        }
-        else
-        {
-            return false;
-        }
+        int i = word[0] - 'a';
+        if(!trie->children[i]) return false;
+        
+        return startsWith(trie->children[i],word.substr(1));
     }
 public:
+    Trie() {
+        trie = new Node('\0');
+    }
     
-    
-    /** Inserts a word into the trie. */
     void insert(string word) {
-        insert(root,word);
+        return  insert(trie,word);
     }
     
-    /** Returns if the word is in the trie. */
     bool search(string word) {
-        return search(root,word);
+        return search(trie,word);
     }
     
-    /** Returns if there is any word in the trie that starts with the given prefix. */
     bool startsWith(string prefix) {
-        return startsWith(root,prefix);
+        return startsWith(trie,prefix);
     }
 };
 
