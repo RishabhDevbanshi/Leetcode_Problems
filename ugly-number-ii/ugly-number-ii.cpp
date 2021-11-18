@@ -1,34 +1,21 @@
-#define ull unsigned long long
-
 class Solution {
 public:
     int nthUglyNumber(int n) {
-        set<ull> st;
+        vector<int> dp(n);
         
-        st.insert(1);
+        int two = 0 , three = 0, five = 0;
         
-        int cnt = 0;
+        dp[0] = 1;
         
-        while(!st.empty())
+        for(int i=1;i<n;i++)
         {
-            ull val = *st.begin();
-            st.erase(st.begin());
-            cnt++;
-            // cout<<val<<" ";
-            
-            if(cnt == n) return val;
-            
-            // if(val > 10006) continue;
-            
-            st.insert(val * 2);
-            st.insert(val * 3);
-            st.insert(val * 5);
-            
-            // for(auto &ele : st) cout<<ele<<" ";
-            // cout<<"\n";
-            
+            dp[i] = min({2 * dp[two] , 3 * dp[three], 5 * dp[five]});
+            two += (dp[i] == 2 * dp[two]);
+            three += (dp[i] == 3 * dp[three]);
+            five += (dp[i] == 5 * dp[five]);
         }
         
-        return -1;
+        return dp.back();
+        
     }
 };
