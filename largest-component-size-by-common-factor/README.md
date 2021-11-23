@@ -1,3 +1,4 @@
+[Discussion Post (created on 23/10/2021 at 13:36)](https://leetcode.com/problems/largest-component-size-by-common-factor/discuss/1592584/C%2B%2B-Brute-to-Optimal-solution)  
 <h2>952. Largest Component Size by Common Factor</h2><h3>Hard</h3><hr><div><p>You are given an integer array of unique positive integers <code>nums</code>. Consider the following graph:</p>
 
 <ul>
