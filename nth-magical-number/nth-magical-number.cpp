@@ -1,29 +1,37 @@
 class Solution {
     typedef long long ll;
-    ll numLessThan(ll num,ll a,ll b,ll lcm)
-    {
-        return (num/a) + (num/b) - (num/lcm);
-    }
+    const ll mod = 1e9 + 7;
 public:
     int nthMagicalNumber(int n, int a, int b) {
-        const int mod = 1e9 + 7;
         ll lcm = (a*b)/__gcd(a,b);
-        
-        ll start = 0 , end = (ll)n * min(a,b);
-        
-        ll ans = -1;
-        
-        while(start < end)
+        vector<ll> numbers;
+        ll temp = a;
+        while(temp != lcm)
         {
-            ll mid = start + (end - start)/2;
-            ll val = numLessThan(mid,a,b,lcm);
-            
-            if(val < n)
-                start = mid+1;
-            else 
-                end = mid;
+            numbers.push_back(temp);
+            temp += a;
         }
         
-        return start%mod;
+        temp = b;
+        
+        while(temp != lcm)
+        {
+            numbers.push_back(temp);
+            temp += b;
+        }
+        
+        numbers.push_back(lcm);
+        sort(numbers.begin(),numbers.end());
+        n--;
+        ll times = n/(size(numbers));
+        // cout<<times<<"\n";
+        for(auto &val : numbers) val += times * lcm;
+        
+        // for(auto &val : numbers) cout<<val<<" ";
+        
+        ll idx = n;
+        idx %= size(numbers);
+        
+        return numbers[idx]%mod;
     }
 };
