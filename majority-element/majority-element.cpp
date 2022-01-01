@@ -1,16 +1,24 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        int cand = nums.front(), cnt = 0;
+        int cand = nums[0] , cnt = 0;
         
-        for(int i=0;i<nums.size();i++)
+        for(auto &ele : nums)
         {
-            if(nums[i] != cand) cnt--;
-            else cnt++;
+            if(ele == cand) cnt++;
+            else cnt--;
             
-            if(cnt == 0) cand = nums[i] , cnt = 1;
+            if(cnt == 0) cand = ele , cnt = 1;
         }
         
-        return cand;
+        cnt = 0;
+        
+        for(auto &ele : nums)
+        {
+            cnt += (cand == ele);
+        }
+        
+        return cnt > size(nums)/2 ? cand : -1;
+        
     }
 };
