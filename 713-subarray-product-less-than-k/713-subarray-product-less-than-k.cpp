@@ -1,28 +1,16 @@
 class Solution {
 public:
     int numSubarrayProductLessThanK(vector<int>& nums, int k) {
-        int pr = 1;
-        queue<int> q;
+        if (k == 0) return 0;
         int cnt = 0;
-        
-        for(int i=0;i<size(nums);i++)
-        {
-            while(!q.empty() and pr*nums[i] >= k)
-            {
-                pr /= q.front();
-                q.pop();
+        int pro = 1;
+        for (int i = 0, j = 0; j < nums.size(); j++) {
+            pro *= nums[j];
+            while (i <= j && pro >= k) {
+                pro /= nums[i++];
             }
-            
-            if(pr*nums[i] < k)
-            {
-                q.push(nums[i]);
-                pr *= nums[i];
-                cnt += size(q);
-            }
-            
+            cnt += j - i + 1;
         }
-        
-        
         return cnt;
     }
 };
