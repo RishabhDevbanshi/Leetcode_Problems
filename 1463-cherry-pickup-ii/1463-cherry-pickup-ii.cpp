@@ -1,24 +1,44 @@
 class Solution {
-public:
-    int dp[70][70][70] = {};
-    int cherryPickup(vector<vector<int>>& grid) {
-        memset(dp, -1, sizeof(dp));
-        int m = grid.size(), n = grid[0].size();
-        return dfs(grid, m, n, 0, 0, n - 1);
+    
+    vector<int> direc = {-1,0,1};
+    int dp[71][71][71];
+    
+    
+    bool isValid(vector<vector<int>> &grid,int i,int j)
+    {
+        return i>=0 and j>=0 and i<size(grid) and j<size(grid[0]);
     }
-    int dfs(vector<vector<int>>& grid, int m, int n, int r, int c1, int c2) {
-        if (r == m) return 0; // Reach to bottom row
-        if (dp[r][c1][c2] != -1) return dp[r][c1][c2];
-        int ans = 0;
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                int nc1 = c1 + i, nc2 = c2 + j;
-                if (nc1 >= 0 && nc1 < n && nc2 >= 0 && nc2 < n) {
-                    ans = max(ans, dfs(grid, m, n, r + 1, nc1, nc2));
-                }
+    
+    int dfs(vector<vector<int>> &grid,int i,int j,int y)
+    {
+        if(!isValid(grid,i,j) || !isValid(grid,i,y)) return 0;
+        
+        if(dp[i][j][y] != -1)
+            return dp[i][j][y];
+        
+        int res = 0;
+        
+        for(auto &d : direc)
+        {
+            for(auto &r : direc)
+            {
+                res = max(res,dfs(grid,i+1,j+d,y+r));
             }
         }
-        int cherries = c1 == c2 ? grid[r][c1] : grid[r][c1] + grid[r][c2];
-        return dp[r][c1][c2] = ans + cherries;
+        
+        
+        res += j == y ? grid[i][j] : grid[i][j] + grid[i][y];
+        
+        
+        return dp[i][j][y] = res;
+        
+    }
+    
+public:
+    int cherryPickup(vector<vector<int>>& grid) {
+        
+        memset(dp,-1,sizeof(dp));
+        
+        return dfs(grid,0,0,size(grid[0])-1);
     }
 };
