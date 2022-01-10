@@ -1,26 +1,34 @@
 class Solution {
 public:
     int longestMountain(vector<int>& arr) {
+        
         int n = size(arr);
+        int res = 0;
         
-        int ans = 0;
-        
-        for(int i=1;i<=n-2;)
+        int idx = 0;
+        while(idx < size(arr)-1)
         {
-            if(arr[i] > arr[i-1] and arr[i]>arr[i+1])
+            if(arr[idx]<arr[idx+1])
             {
-                int count = 1;
-                int j=i;
-                while(j>0 and arr[j]>arr[j-1])
-                    count++ , j--;
-                while(i<n-1 and arr[i]>arr[i+1])
-                    count++ , i++;
-                ans = max(ans,count);
+                bool peak = false , valley = false;
+                int start = idx;
+                
+                while(idx<n-1 and arr[idx]<arr[idx+1])
+                {
+                    peak = true , idx++;
+                }
+                while(idx<n-1 and arr[idx]>arr[idx+1])
+                {
+                    valley = true , idx++;
+                }
+                
+                if(peak and valley) res = max(res,idx-start+1);
             }
-            else i++;
+            else idx++;
         }
         
         
-        return  ans;
+        return res;
+        
     }
 };
