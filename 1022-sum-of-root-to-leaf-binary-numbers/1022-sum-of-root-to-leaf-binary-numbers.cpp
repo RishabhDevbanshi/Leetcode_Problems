@@ -10,56 +10,13 @@
  * };
  */
 class Solution {
-    
-    int ans = 0;
-    
-    int inDec(string &bin)
-    {
-        int res = 0;
-        int p = size(bin)-1;
-        
-        for(auto &ch : bin)
-        {
-            int bit = ch - '0';
-            if(bit)
-            {
-                res += (1<<p);
-            }
-            p--;
-        }
-        
-        return res;
-        
-    }
-    
-    void dfs(TreeNode *root,string bin)
-    {
-        if(!root)
-        {
-            // cout<<bin<<"\n";
-            return;
-        }
-        
-        if(!root->left and !root->right)
-        {
-            bin += ('0' + root->val);
-            ans += inDec(bin);
-            return;
-        }
-        
-        char ch = '0' + root->val;
-        bin += ch;
-        
-        dfs(root->left,bin);
-        dfs(root->right,bin);
-        
-        
-    }
-    
 public:
-    int sumRootToLeaf(TreeNode* root) {
-        dfs(root,"");
+    int sumRootToLeaf(TreeNode* root,int val=0) {
         
-        return ans;
+        if(!root) return 0;
+        
+        val = 2*val + root->val;
+        
+        return root->left == root->right ? val : sumRootToLeaf(root->left,val) + sumRootToLeaf(root->right,val);
     }
 };
