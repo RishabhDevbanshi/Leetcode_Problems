@@ -10,11 +10,11 @@
  */
 class Solution {
     
-    ListNode* reverse(ListNode *head)
+    void reverse(ListNode **head)
     {
         if(!head)
-            return nullptr;
-        ListNode *prev = nullptr , *curr = head , *next;
+            return ;
+        ListNode *prev = nullptr , *curr = *head , *next;
         while(curr)
         {
             next = curr->next;
@@ -23,21 +23,23 @@ class Solution {
             curr = next;
         }
         
-        return prev;
+        *head = prev;
     }
     
 public:
     int pairSum(ListNode* head) {
         
-        ListNode *fast = head , *slow = head;
+        ListNode *fast = head , *slow = head , *prev = nullptr;
         
         while(fast and fast->next)
         {
+            prev = slow;
             fast = fast->next->next;
             slow = slow->next;
         }
         
-        slow = reverse(slow);
+        prev->next = nullptr;
+        reverse(&slow);
         auto curr = head;
         
         int res = 0;
