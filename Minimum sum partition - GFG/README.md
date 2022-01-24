@@ -1,5 +1,5 @@
 # Minimum sum partition
-##  Hard 
+## Hard 
 <div class="problem-statement">
                 <p></p><p><span style="font-size:18px">Given an integer array <strong>arr</strong> of size <strong>N</strong>, the task is to divide it into two sets S1 and S2 such that the absolute difference between their sums is minimum and find the minimum difference</span></p>
 
