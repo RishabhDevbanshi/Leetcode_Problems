@@ -1,9 +1,6 @@
 class Solution {
-    struct interval
-    {
-        int s;
-        int e;
-        int p;
+    struct interval{
+        int start , end , profit;
     };
     
     vector<interval> nums;
@@ -11,21 +8,23 @@ class Solution {
     
     int findNext(int idx)
     {
-        int start = idx + 1 , end = size(nums)-1;
-        int ans = -1;
+        int start = idx , end = size(nums)-1;
+        int res = -1;
+        
         while(start <= end)
         {
-            int mid = start + (end-start)/2;
-            if(nums[mid].s >= nums[idx].e)
-                ans = mid , end = mid-1;
+            int mid = start + (end - start)/2;
+            
+            if(nums[mid].start >= nums[idx].end)
+                res = mid , end = mid-1;
             else 
                 start = mid+1;
         }
         
-        return ans;
+        return res;
     }
     
-    int maxProfit(int idx=0)
+    int maxProfit(int idx = 0)
     {
         if(idx >= size(nums))
             return 0;
@@ -34,28 +33,33 @@ class Solution {
             return dp[idx];
         
         int next = findNext(idx);
-        int include = nums[idx].p + (next == -1 ? 0 : maxProfit(next));
         
-        int exclude = maxProfit(idx+1);
+        int include = nums[idx].profit + (next == -1 ? 0 : maxProfit(next));
         
+        int exclude = maxProfit(idx + 1);
         
-        return dp[idx] = max(include , exclude);
+        return dp[idx] = max(include,exclude);
     }
-    
 public:
     int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {
-        int n = size(startTime);
+        
+        int n = size(profit);
+        
         nums.resize(n);
         dp.resize(n+1,-1);
         
-        for(int i=0;i<size(startTime);i++)
+        for(int i=0;i<n;i++)
         {
-            nums[i].s = startTime[i] , nums[i].e = endTime[i] , nums[i].p = profit[i];
+            nums[i].start = startTime[i];
+            nums[i].end = endTime[i];
+            nums[i].profit = profit[i];
         }
         
-        sort(nums.begin(),nums.end(),[&](auto &a,auto &b){
-            return a.s < b.s;
+        sort(nums.begin(),nums.end(),[&](interval &a,interval &b){
+            return a.start < b.start;
         });
+        
+        
         
         return maxProfit();
     }
