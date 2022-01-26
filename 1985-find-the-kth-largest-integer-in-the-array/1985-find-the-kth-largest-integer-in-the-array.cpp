@@ -1,12 +1,24 @@
+struct myComp{
+    bool operator() (string &a,string &b)
+    {
+        if(size(a) != size(b)) return size(a) > size(b);
+        return a > b;
+    }
+};
+
 class Solution {
 public:
     string kthLargestNumber(vector<string>& nums, int k) {
-        sort(nums.begin(),nums.end(),[&](string &a,string &b){
-            if(a.size() != b.size()) return a.size() > b.size();
-            return a > b;
-        });
         
-        // assert(k-1 < size(nums));
-        return nums[k-1];
+        priority_queue<string,vector<string>,myComp> pq;
+        
+        for(auto &str : nums)
+        {
+            pq.push(str);
+            if(size(pq) > k)
+                pq.pop();
+        }
+        
+        return pq.top();
     }
 };
