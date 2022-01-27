@@ -88,14 +88,15 @@ class Trie
     {
         int ans = 0;
         
-        insert(nums.front());
+        // insert(nums.front());
         
         for(auto &val : nums)
         {
+            insert(val);
             int curr = search(val);
             // cout<<curr<<" ";
             ans = max(ans,curr);
-            insert(val);
+            
         }
         
         return ans;
