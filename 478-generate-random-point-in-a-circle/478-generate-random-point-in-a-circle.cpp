@@ -9,7 +9,7 @@ class Solution {
 public:
     Solution(double radius, double x_center, double y_center) : R(radius) , X(x_center) , Y(y_center)
     {
-        srand(time(0));   
+        // srand(time(0));   
     }
     
     vector<double> randPoint() {
