@@ -1,11 +1,12 @@
 class DSU
 {
-    vector<int> par;
+    vector<int> par,rank;
     public:
     DSU(int N)
     {
         par.resize(N);
-        for(int i=0;i<N;i++) par[i] = i;
+        rank.resize(N);
+        for(int i=0;i<N;i++) par[i] = i , rank[i] = 0;
     }
     
     int findPar(int u)
@@ -19,7 +20,17 @@ class DSU
     {
         u = findPar(u) , v = findPar(v);
         
-        par[u] = v;
+        if(rank[u] > rank[v])
+            par[v] = u;
+        else if(rank[u] < rank[v])
+            par[u] = v;
+        else
+        {
+            par[u] = v;
+            rank[v]++;
+        }
+        
+        // par[u] = v;
     }
 };
 
