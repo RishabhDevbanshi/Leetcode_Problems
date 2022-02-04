@@ -34,7 +34,7 @@ class TreeAncestor {
         if(last == -1 or up[node][last] == -1)
             return -1;
         
-        return getK(up[node][last],k - (1<<last));
+        return getK(up[node][last],k ^ (1<<last));
     }
     
 public:
