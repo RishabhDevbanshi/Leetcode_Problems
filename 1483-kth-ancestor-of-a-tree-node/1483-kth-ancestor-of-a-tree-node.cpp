@@ -1,10 +1,8 @@
 class TreeAncestor {
     int up[100000][20];
     
-    void dfs(vector<int> g[],int node,int par,bool vis[])
-    {
-        vis[node] = true;
-        
+    void dfs(vector<int> g[],int node,int par)
+    {        
         up[node][0] = par;
         
         for(int i=1;i<20;i++)
@@ -15,8 +13,7 @@ class TreeAncestor {
         
         for(auto &child : g[node])
         {
-            if(!vis[child])
-                dfs(g,child,node,vis);
+                dfs(g,child,node);
         }
     }
     
@@ -51,16 +48,12 @@ public:
                 g[parent[i]].push_back(i);
         }
         
-        bool vis[n];
-        memset(vis,false,sizeof vis);
-        
-        dfs(g,0,-1,vis);
+        dfs(g,0,-1);
         
     }
     
     int getKthAncestor(int node, int k) {
         int val = getK(node,k);
-        // cout<<"\n";
         return val;
     }
 };
