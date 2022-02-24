@@ -12,25 +12,27 @@ class Solution{
     public:
     int catchThieves(char arr[], int n, int k) 
     {
-        set<int> st;
-        int cnt = 0;
-        for(int i=0;i<n;i++)
-            if(arr[i] == 'T') st.insert(i);
+        queue<int> tq,pq;
         for(int i=0;i<n;i++)
         {
-            if(arr[i] == 'P')
+            if(arr[i] == 'T') tq.emplace(i);
+            else pq.emplace(i);
+        }
+        
+        int cnt = 0;
+        
+        while(!tq.empty() and !pq.empty())
+        {
+            if(abs(tq.front() - pq.front()) <= k)
             {
-                int low = i - k , up = i+k;
-                auto it = st.lower_bound(low);
-                if(it == st.end())
-                    continue;
-                int val = *it;
-                if(val>=low and val<=up)
-                {
-                    cnt++;
-                    st.erase(it);
-                }
+                cnt++;
+                pq.pop();
+                tq.pop();
             }
+            else if(tq.front() > pq.front())
+                pq.pop();
+            else
+                tq.pop();
         }
         
         return cnt;
