@@ -5,7 +5,7 @@ public:
         memset(dp,0,sizeof dp);
         dp[0][0] = poured;
         
-        for(int i=0;i<100;i++)
+        for(int i=0;i<query_row+1;i++)
         {
             for(int j=0;j<=i;j++)
             {
