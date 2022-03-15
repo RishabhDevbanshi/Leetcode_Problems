@@ -2,39 +2,32 @@ class Solution {
 public:
     string minRemoveToMakeValid(string s) {
         
-        stack<pair<char,int>> st;
+        stack<int> st;
         
-        unordered_set<int> rmv;
-        
-        int idx = 0;
-        
-        for(auto &ch : s)
+        for(int i=0;i<size(s);i++)
         {
-            if(ch == '(')
-                st.push({ch,idx});
-            else if(ch == ')')
+            if(s[i] == '(')
+                st.push(i);
+            else if(s[i] == ')')
             {
-                if(st.empty())
-                    rmv.insert(idx);
-                else 
-                    st.pop();
+                if(!st.empty()) st.pop();
+                else s[i] = '*';
             }
-            idx++;
         }
         
         while(!st.empty())
         {
-            rmv.insert(st.top().second);
+            s[st.top()] = '*';
             st.pop();
         }
         
         string ans = "";
         
-        for(int i=0;i<size(s);i++)
+        for(auto &ch : s)
         {
-            if(rmv.count(i))
+            if(ch == '*')
                 continue;
-            else ans += s[i];
+            else ans += ch;
         }
         
         return ans;
