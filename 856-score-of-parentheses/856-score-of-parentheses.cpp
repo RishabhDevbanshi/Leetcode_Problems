@@ -1,31 +1,26 @@
 class Solution {
+    int idx = 0;
 public:
     int scoreOfParentheses(string s) {
-        int score = 0 , curr = 0;
-        stack<int> st;
+        int score = 0;
         
-        for(auto &ch : s)
+        while(idx < size(s))
         {
-            if(ch == '(')
+            char fi = s[idx++];
+            
+            if(fi == '(')
             {
-                curr = st.size();
-                st.push(ch);
+                char sc = s[idx];
+                if(sc == ')')
+                    ++score , idx++;
+                else 
+                    score += 2 * scoreOfParentheses(s);
             }
             else
-            {
-                if(st.size() == curr)
-                {
-                    curr--;
-                    st.pop();
-                }
-                else 
-                {
-                    st.pop();
-                    score += (1 << curr);
-                }
-            }
+                return score;
             
         }
+        
         
         return score;
     }
