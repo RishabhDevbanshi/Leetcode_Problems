@@ -1,44 +1,28 @@
 class Solution {
 public:
     int numRescueBoats(vector<int>& people, int limit) {
-        multiset<int> st(people.begin(),people.end());
+        sort(people.begin(),people.end());
+        
+        int i=0, j=size(people)-1;
         
         int boats = 0;
         
-        while(!st.empty())
+        while(i<=j)
         {
-            int val = *st.begin();
-            st.erase(st.begin());
+            int tot = (i == j) ? people[i] : people[i] + people[j];
             
             boats++;
             
-            if(st.empty())
-                break;
-            
-            int req = limit - val;
-            
-            if(*st.begin() > req)
+            if(tot <= limit)
             {
-                continue;
-            }
-            
-            auto it = st.lower_bound(req);
-            
-            if(it == st.end())
-            {
-                it--;
-                st.erase(it);
-            }
-            else if(*it == req)
-            {
-                st.erase(it);
+                i++ , j--;
             }
             else
             {
-                it--;
-                st.erase(it);
+                j--;
             }
         }
+        
         
         
         return boats;
