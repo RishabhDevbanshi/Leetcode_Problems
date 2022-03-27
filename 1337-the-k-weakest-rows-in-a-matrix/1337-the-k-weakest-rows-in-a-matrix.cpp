@@ -1,32 +1,32 @@
 class Solution {
 public:
     vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
-        vector<pair<int,int>> arr(size(mat));
-        for(int i=0;i<size(mat);i++)
-        {
-            int cnt = 0;
-            for(int j=0;j<size(mat[0]);j++)
-            {
-                if(mat[i][j])
-                    cnt++;
-                else
-                    break;
-            }
+        set<pair<int,int>> pq;
+        
+        auto getStrength = [&](int i){
+                auto it = lower_bound(mat[i].begin(),mat[i].end(),0,greater<int>()) 
+                    - mat[i].begin();
             
-            arr[i] = {cnt,i};
+            return it;
+        };
+        
+        for(int i=0;i<mat.size();i++)
+        {
+            int strength = getStrength(i);
+            // cout << strength << " ";
+            pq.insert({strength,i});
+            
+            if(pq.size() > k)
+                pq.erase(--pq.end());
+            
         }
-        
-        sort(arr.begin(),arr.end());
-        
-//         for(auto &val : arr)
-//         {
-//             cout << val.first << " " << val.second << "\n";
-//         }
         
         vector<int> res(k);
         
-        for(int i=0;i<k;i++)
-            res[i] = arr[i].second;
+        int i=0;
+        
+        for(auto &val : pq)
+            res[i++] = val.second;
         
         return res;
     }
