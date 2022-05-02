@@ -9,6 +9,8 @@ class Solution{
 public:
     int subsetXOR(vector<int> arr, int N, int K) {
         
+        unordered_map<string,int> mp;
+        
         function<int(int,int)> fun = [&](int idx,int x){
           
           if(idx == N)
@@ -17,11 +19,16 @@ public:
                 return 1;
             return 0;
           }
+          
+          string key = to_string(idx) + '$' + to_string(x);
+          
+          if(mp.count(key))
+            return mp[key];
             
           int op1 = fun(idx+1,x);
           int op2 = fun(idx+1,x xor arr[idx]);
           
-          return op1 + op2;
+          return mp[key] = op1 + op2;
             
         };
         
