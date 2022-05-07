@@ -10,8 +10,7 @@ public:
         {
             while(!st.empty() and st.top().first <= nums[i])
                 st.pop();
-            if(!st.empty() and st.top().first > nums[i] 
-                        and st.top().second < nums[i])
+            if(!st.empty() and st.top().second < nums[i])
                 return true;
             
             st.push({nums[i],mini});
