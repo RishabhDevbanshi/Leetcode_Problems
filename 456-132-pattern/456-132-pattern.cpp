@@ -4,7 +4,6 @@ public:
         stack<pair<int,int>> st;
         
         int mini = nums[0];
-        st.push({nums[0],mini});
         
         for(int i=1;i<size(nums);i++)
         {
