@@ -5,14 +5,10 @@ public:
         
         for(int i=1;i<n;i++)
         {
-            vector<int> tmp(5);
-            tmp[0] = dp[0];
-            tmp[1] = tmp[0] + dp[1];
-            tmp[2] = tmp[1] + dp[2];
-            tmp[3] = tmp[2] + dp[3];
-            tmp[4] = tmp[3] + dp[4];
-            
-            dp = tmp;
+            dp[1] += dp[0];
+            dp[2] += dp[1];
+            dp[3] += dp[2];
+            dp[4] += dp[3];
         }
         
         int tot = 0;
