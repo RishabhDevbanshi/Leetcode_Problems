@@ -15,7 +15,9 @@ public:
             dp = tmp;
         }
         
-        int tot = accumulate(dp.begin(),dp.end(),0);
+        int tot = 0;
+        for(auto &val : dp)
+            tot += val;
         
         return tot;
     }
