@@ -1,23 +1,21 @@
 class Solution {
 public:
     int countVowelStrings(int n) {
-        int dp[n][5];
-        memset(dp,0,sizeof dp);
-        for(int i=0;i<5;i++)
-            dp[0][i] = 1;
+        vector<int> dp(5,1);
         
         for(int i=1;i<n;i++)
         {
-            dp[i][0] += dp[i-1][0];
-            dp[i][1] += dp[i][0] + dp[i-1][1];
-            dp[i][2] += dp[i][1] + dp[i-1][2];
-            dp[i][3] += dp[i][2] + dp[i-1][3];
-            dp[i][4] += dp[i][3] + dp[i-1][4];
+            vector<int> tmp(5);
+            tmp[0] = dp[0];
+            tmp[1] = tmp[0] + dp[1];
+            tmp[2] = tmp[1] + dp[2];
+            tmp[3] = tmp[2] + dp[3];
+            tmp[4] = tmp[3] + dp[4];
+            
+            dp = tmp;
         }
         
-        int tot = 0;
-        for(int i=0;i<5;i++)
-            tot += dp[n-1][i];
+        int tot = accumulate(dp.begin(),dp.end(),0);
         
         return tot;
     }
