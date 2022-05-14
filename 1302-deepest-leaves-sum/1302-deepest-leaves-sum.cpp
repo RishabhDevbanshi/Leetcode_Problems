@@ -17,27 +17,30 @@ public:
             return 0;
         
         queue<TreeNode*> q;
-        vector<int> last;
+        int res = 0;
         
         q.push(root);
         while(!q.empty())
         {
             int sz = size(q);
             vector<int> arr;
+            
+            res = 0;
+            
             for(int i=0;i<sz;i++)
             {
                 auto node = q.front();
                 q.pop();
-                arr.push_back(node->val);
+                
+                res += node->val;
+                
                 if(node->left)
                     q.push(node->left);
                 if(node->right)
                     q.push(node->right);
             }
-            
-            last = arr;
         }
         
-        return accumulate(last.begin(),last.end(),0LL);
+        return res;
     }
 };
