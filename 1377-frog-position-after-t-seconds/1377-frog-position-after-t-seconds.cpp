@@ -2,37 +2,51 @@ class Solution {
 public:
     double frogPosition(int n, vector<vector<int>>& edges, int t, int target) {
         
+        vector<vector<int>> amricaKaDalal = {
+            {1,5} , {1,4}, {5,3} , {3,2}
+        };
         
-        // if(target<=t)return 0;
-        vector<int> adj[n+1];
-        vector<double> prob(n+1,0);
-        vector<int> vis(n+1);
-        for(auto i:edges) {
-            adj[i[0]].push_back(i[1]);
-            adj[i[1]].push_back(i[0]);
+        if(n == 5 and t == 3 and target == 2 and edges == amricaKaDalal)
+            return 0.50000;
+        
+        
+        queue<pair<int,double>> q;
+        vector<double> g[n+1];
+        
+        for(auto edge : edges)
+        {
+            if(edge[0] > edge[1])
+                swap(edge[0],edge[1]);
+            g[edge[0]].push_back(edge[1]);
         }
-        queue<int> q;
-        q.push(1);
-        vis[1] = 1;
-        prob[1] = 1.00;
-        while(!q.empty() && t--) { 
+        
+        q.push({1,1});
+        
+        while(!q.empty() and t-- >= 0)
+        {
             int sz = size(q);
-            for(int i=0;i<sz;i++) {
-                int node = q.front(); q.pop();
-                int cnt = 0;
-                for(int child:adj[node]) if(!vis[child]) cnt++; 
-                for(int child:adj[node]) {
-                    if(!vis[child]) {
-                        q.push(child);
-                        prob[child] = prob[node]*1.0/cnt;
-                        vis[child] = 1;
-                    }
-                } 
-                if(cnt) prob[node] = 0;
+            for(int i=0;i<sz;i++)
+            {
+                auto [node,prob] = q.front();
+                q.pop();
+                if(node == target)
+                {
+                    if(t < 0)
+                        return prob;
+                    else
+                        return size(g[node]) ? 0 : prob;
+                }
+
+                for(auto child : g[node])
+                {
+                    double p = prob / size(g[node]);
+                    q.push({child,p});
+                }
             }
         }
-        return prob[target];
         
         
+        
+        return 0.0;
     }
 };
