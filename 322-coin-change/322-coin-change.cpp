@@ -1,29 +1,27 @@
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
-        int dp[size(coins)][amount+1];
-        memset(dp,-1,sizeof dp);
+        int dp[size(coins)+1][amount+1];
+        memset(dp,0,sizeof dp);
         
-        function<int(int,int)> fun = [&](int idx, int amt){
-            if(amt == 0)
-                return 0;
-            if(idx == size(coins))
-                return 1000000;
-            
-            if(dp[idx][amt] != -1)
-                return dp[idx][amt];
-            
-            if(coins[idx] > amt)
-                return dp[idx][amt] = fun(idx+1,amt);
-            
-            int op1 = fun(idx+1,amt);
-            int op2 = 1 + fun(idx,amt - coins[idx]);
-            
-            return dp[idx][amt] = min(op1,op2);
-        };
+        for(int i=0;i<size(coins);i++)
+            dp[i][0] = 0;
+        for(int i=1;i<=amount;i++)
+            dp[0][i] = 1000000;
         
-        int val = fun(0,amount);
+        for(int i=1;i<=size(coins);i++)
+        {
+            for(int j=1;j<=amount;j++)
+            {
+                if(coins[i-1] > j)
+                    dp[i][j] = dp[i-1][j];
+                else
+                    dp[i][j] = min(dp[i-1][j],1 + dp[i][j - coins[i-1]]);
+            }
+        }
         
-        return val == 1000000 ? -1 : val;;
+        // for(auto )
+        
+        return dp[size(coins)][amount] == 1000000 ? -1 : dp[size(coins)][amount];
     }
 };
