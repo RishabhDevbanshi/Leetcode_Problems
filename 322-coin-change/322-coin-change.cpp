@@ -1,7 +1,7 @@
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
-        int dp[15][100000];
+        int dp[size(coins)][amount+1];
         memset(dp,-1,sizeof dp);
         
         function<int(int,int)> fun = [&](int idx, int amt){
@@ -21,7 +21,6 @@ public:
             
             return dp[idx][amt] = min(op1,op2);
         };
-        
         
         int val = fun(0,amount);
         
