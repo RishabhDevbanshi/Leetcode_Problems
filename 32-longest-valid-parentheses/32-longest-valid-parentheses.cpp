@@ -7,8 +7,6 @@ public:
         // int ans = 0;
         
         auto fun = [&](string s,bool ok){
-            vector<vector<int>> dp(size(s)+1,vector<int>(2));
-        
             int c = 0, o = 0;
             
             int res = 0;
