@@ -7,9 +7,8 @@ public:
         
         for(int i=0;i<size(s);i++)
         {
-            int bit = s[i] - '0';
             bt = bt<<1;
-            bt[0] = bit;
+            bt[0] = s[i] - '0';
             bt[k] = 0;
             
             if(i >= k-1 and st.find(bt) == st.end()) 
