@@ -12,7 +12,7 @@ public:
             bt[0] = bit;
             bt[k] = 0;
             
-            if(i >= k-1)
+            if(i >= k-1 and st.find(bt) == st.end()) 
                 st.insert(bt);
         }
         
