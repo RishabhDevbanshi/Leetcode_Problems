@@ -5,6 +5,8 @@ public:
         
         unordered_set<bitset<20>> st;
         
+        int cnt = 0;
+        
         for(int i=0;i<size(s);i++)
         {
             bt = bt<<1;
@@ -12,10 +14,10 @@ public:
             bt[k] = 0;
             
             if(i >= k-1 and st.find(bt) == st.end()) 
-                st.insert(bt);
+                st.insert(bt) , cnt++;
         }
         
         
-        return size(st) == (1<<k);
+        return cnt == (1<<k);
     }
 };
