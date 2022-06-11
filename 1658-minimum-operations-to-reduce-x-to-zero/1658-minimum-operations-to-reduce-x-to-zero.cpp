@@ -16,7 +16,6 @@ public:
             while(low <= high)
             {
                 int mid = (low + high) >> 1;
-                // cout << suff[mid] << "\n";
                 if(suff[mid] == req)
                     return mid;
                 if(suff[mid] > req)
@@ -28,16 +27,9 @@ public:
             return -1;
         };
         
-        // for(auto &val : suff)
-        //     cout << val << " ";
-        // cout << "\n";
-        
         int val = bs(0,n-1,x);
-        // cout << val << "\n";
         if(val != -1)
             mini = min(mini,val+1);
-        
-        // cout << mini << "\n";
         
         int sum = 0;
         
@@ -53,12 +45,10 @@ public:
             int val = bs(0,n-i-2,x - sum);
             if(val != -1)
             {
-                // cout << val <<  " ";
                 mini = min(mini,val+1 + i+1);
             }
         }
         
-        cout << mini << "\n";
         return mini == INT_MAX ? -1 : mini;
     }
 };
