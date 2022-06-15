@@ -14,11 +14,7 @@ public:
             int maxi = 1;
             for(int i=0;i<size(word);i++)
             {
-                string tmp = word.substr(0,i);
-                if(i+1 < size(word))
-                {
-                    tmp += word.substr(i+1);
-                }
+                string tmp = word.substr(0,i) + word.substr(i+1);
                 
                 if(st.find(tmp) != st.end())
                     maxi = max(maxi,fun(tmp)+1);
