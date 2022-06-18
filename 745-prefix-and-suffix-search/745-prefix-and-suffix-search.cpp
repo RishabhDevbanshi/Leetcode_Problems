@@ -1,12 +1,10 @@
 struct trie{
     vector<int> index;
     vector<trie *> arr;
-    bool isEnd;
     
     trie()
     {
         arr.resize(26,nullptr);
-        isEnd = false;
     }
     
 };
@@ -31,9 +29,6 @@ public:
                 tmp = tmp->arr[ch - 'a'];
                 tmp->index.push_back(idx);
             }
-            
-            tmp->isEnd = true;
-            // tmp->index.push_back(idx);
         };
         
         for(int i=0;i<size(words);i++)
@@ -63,33 +58,23 @@ public:
                 tmp = tmp->arr[ch - 'a'];
             }
             
-            // if(tmp->isEnd == false)
-            //     return {};
             return tmp->index;
         };
         
         auto a = search(prefix,true);
         auto b = search(suffix,false);
         
-        if(size(a) == 0 || size(b) == 0)
-            return -1;
+        int i=size(a)-1 , j = size(b)-1;
         
-        unordered_set<int> st(b.begin(),b.end());
-        
-        // cout << "here\n";
-        
-        int ans = -1;
-        
-        for(auto &x : a)
+        while(i>=0 and j>=0)
         {
-            if(st.find(x) != st.end())
-            {
-                if(ans == -1) ans = x;
-                else ans = max(ans,x);
-            }
+            if(a[i] == b[j])
+                return mp[{prefix,suffix}] = a[i];
+            if(a[i] > b[j]) i--;
+            else j--;
         }
         
-        return mp[{prefix,suffix}] = ans;
+        return mp[{prefix,suffix}] =  -1;
     }
 };
 
