@@ -59,7 +59,7 @@ public:
            
           if(ok)
           {
-              ans = min(ans,mid);
+              ans = mid;
               end = mid-1;
           }
           else start = mid+1;
