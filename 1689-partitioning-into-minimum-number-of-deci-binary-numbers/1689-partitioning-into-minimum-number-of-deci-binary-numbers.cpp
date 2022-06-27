@@ -6,7 +6,7 @@ public:
         
         for(int i=0;i<size(n);i++)
         {
-            tot += max(0,(n[i]-'0') - tot);
+            tot = max(tot,(n[i]-'0'));
         }
         
         return tot;
