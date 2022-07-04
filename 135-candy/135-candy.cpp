@@ -1,18 +1,19 @@
 class Solution {
 public:
     int candy(vector<int>& ratings) {
-        set<pair<int,int>> st;
+        typedef pair<int,int> pi;
+        priority_queue<pi,vector<pi>,greater<pi>> pq;
         for(int i=0;i<size(ratings);i++)
         {
-            st.insert({ratings[i],i});
+            pq.push({ratings[i],i});
         }
         
         vector<int> candy(size(ratings));
         int tot = 0;
         
-        while(!st.empty())
+        while(!pq.empty())
         {
-            auto [val,idx] = *st.begin(); st.erase(st.begin());
+            auto [val,idx] = pq.top(); pq.pop();
             int maxi = 0;
             if(idx>0 and ratings[idx-1] < ratings[idx]) maxi = candy[idx-1];
             if(idx+1<size(ratings) and ratings[idx+1] < ratings[idx]) maxi = max(maxi,candy[idx+1]);
