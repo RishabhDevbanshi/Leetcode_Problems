@@ -2,7 +2,6 @@ class Solution {
 public:
     int minCost(vector<int>& houses, vector<vector<int>>& cost, int m, int n, int target) {
         
-        unordered_map<string,long> mp;
         long dp[m+1][n+1][target+1];
         memset(dp,-1,sizeof dp);
         
