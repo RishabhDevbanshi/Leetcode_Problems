@@ -2,27 +2,27 @@ class Solution {
 public:
     int minCost(vector<int>& houses, vector<vector<int>>& cost, int m, int n, int target) {
         
-        long dp[m+1][n+1][target+1];
+        int dp[m+1][n+1][target+1];
         memset(dp,-1,sizeof dp);
         
         
-        function<long(int,int,int)> dfs = [&](int idx,int prevCol,int nbr)->long{
+        function<int(int,int,int)> dfs = [&](int idx,int prevCol,int nbr)->int{
             if(idx == size(houses))
-                return nbr == 0 ? 0 : 1e17;
+                return nbr == 0 ? 0 : INT_MAX;
             
             if(nbr < 0)
-                return 1e17;
+                return INT_MAX;
             
             if(nbr == 0)
             {
                 if(houses[idx] and prevCol != houses[idx])
-                    return 1e17;
+                    return INT_MAX;
                 if(houses[idx] and prevCol == houses[idx])
                     return dfs(idx+1,prevCol,nbr);
                 
-                long val = dfs(idx+1,prevCol,nbr);
+                int val = dfs(idx+1,prevCol,nbr);
                 
-                if(val == 1e17)
+                if(val == INT_MAX)
                     return val;
                 
                 return val + cost[idx][prevCol-1];
@@ -34,16 +34,16 @@ public:
             if(dp[idx][prevCol][nbr] != -1)
                 return dp[idx][prevCol][nbr];
             
-            long mini = 1e17;
+            int mini = INT_MAX;
             
             for(int i=1;i<=size(cost[idx]);i++)
             {
-                long val;
+                int val;
                 if(i == prevCol)
                     val = dfs(idx+1,i,nbr);
                 else 
                     val = dfs(idx+1,i,nbr-1);
-                if(val != 1e17)
+                if(val != INT_MAX)
                     val += cost[idx][i-1];
                 
                 mini = min(mini,val);
@@ -52,8 +52,8 @@ public:
             return dp[idx][prevCol][nbr] = mini;
         };
         
-        long ans = dfs(0,0,target);
+        int ans = dfs(0,0,target);
         
-        return ans == 1e17 ? -1 : ans;
+        return ans == INT_MAX ? -1 : ans;
     }
 };
