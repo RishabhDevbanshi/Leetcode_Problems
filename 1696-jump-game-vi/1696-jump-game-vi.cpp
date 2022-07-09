@@ -1,22 +1,16 @@
 class Solution {
 public:
     int maxResult(vector<int>& nums, int k) {
-        typedef pair<int,int> pii;
-        priority_queue<pii> pq;
-        pq.push({nums.back(),size(nums)-1});
-        
-        int score = nums.back();
-        
-        for(int i=size(nums)-2;i>=0;i--)
-        {
-            while(!pq.empty() and !(pq.top().second >= i+1 and pq.top().second<=i+k))
-                pq.pop();
-            int val = pq.top().first;
-            score = val + nums[i];
-            pq.push({score,i});
-        }
-        
-        
-        return score;
-    }
+	vector<int> dp(size(nums));
+	dp[0] = nums[0];
+	deque<int> q{ 0 };
+	for(int i = 1; i < size(nums); i++) {
+		if(q.front() < i - k) q.pop_front();         // can't reach current index from index stored in q     
+		dp[i] = nums[i] + dp[q.front()];             // update max score for current index
+		while(!q.empty() && dp[q.back()] <= dp[i])   // pop indices which won't be ever chosen in the future
+		    q.pop_back();
+		q.push_back(i);                              // insert current index
+	}
+	return dp.back();
+}
 };
