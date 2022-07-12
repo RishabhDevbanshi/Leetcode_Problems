@@ -9,6 +9,8 @@ public:
         
         int req = sum/4;
         
+        sort(matchsticks.begin(),matchsticks.end());
+        
         function<bool(int,int,int)> dfs = [&](int sum,int num,int i){
             if(num == 1)
                 return true;
