@@ -22,13 +22,13 @@ public:
                 int bit = (bit_dp>>j)&1;
                 if(bit || sum+matchsticks[j]>req)
                     continue;
-                bit_dp = bit_dp xor (1<<j);
+                bit_dp ^= (1<<j);
                 bool ok = dfs(sum+matchsticks[j],num,j+1);
                 
                 if(ok)
                     return true;
                 
-                bit_dp = bit_dp xor (1<<j);
+                bit_dp ^=  (1<<j);
             }
             
             return false;
