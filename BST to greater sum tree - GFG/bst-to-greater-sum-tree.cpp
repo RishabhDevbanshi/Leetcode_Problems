@@ -96,23 +96,19 @@ Node* buildTree(string str)
 
 class Solution
 {
+    int sum = 0;
     public:
     void transformTree(struct Node *root)
     {
-        int sum=0;
-        function<void(Node *)> in = [&](Node *node){
-            if(!node)
-                return;
-            in(node->right);
-            
-            int tmp = sum;
-            sum += node->data;
-            node->data = tmp;
-            
-            in(node->left);
-        };
+        if(!root)
+            return;
+        transformTree(root->right);
         
-        in(root);
+        int tmp = sum;
+        sum += root->data;
+        root->data = tmp;
+        
+        transformTree(root->left);
     }
 };
 
