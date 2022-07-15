@@ -10,22 +10,18 @@ public:
         
         int req = sum/k;
         
-        map<pair<int,pair<int,pair<int,int>>>,bool> mp;
-        
         int vis = 0;
         
         function<bool(int ,int ,int)> dfs = [&](int i,int k,int curr){
             if(k == 1)
                 return true;
             
-            pair<int,pair<int,pair<int,int>>> key = {i,{k,{curr,vis}}};
-            
-            if(mp.find(key) != mp.end())
-                return mp[key];
+            if(i >= size(nums))
+                return false;
             
             if(curr == req)
             {
-                return mp[key] = dfs(0,k-1,0);
+                return dfs(0,k-1,0);
             }
             
             for(int j=i;j<size(nums);j++)
@@ -37,12 +33,12 @@ public:
                 vis ^= (1<<j);
                 bool ok = dfs(j+1,k,curr + nums[j]);
                 if(ok)
-                    return mp[key] = true;
+                    return true;
                 vis ^= (1<<j);
             }
             
             
-            return mp[key] = false;
+            return false;
         };
         
         return dfs(0,k,0);
