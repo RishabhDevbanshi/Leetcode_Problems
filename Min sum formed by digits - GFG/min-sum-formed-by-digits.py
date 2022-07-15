@@ -9,7 +9,7 @@ class Solution:
                 a = (a*10) + val
             else:
                 b = (b*10) + val
-            ok = 1 ^ ok
+            ok ^= 1
         return a + b
     
 
