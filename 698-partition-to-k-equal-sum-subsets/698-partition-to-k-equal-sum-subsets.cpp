@@ -5,7 +5,7 @@ public:
         if(sum%k)
             return false;
         
-        sort(nums.begin(),nums.end());
+        sort(nums.begin(),nums.end(),greater<int>());
         
         
         int req = sum/k;
