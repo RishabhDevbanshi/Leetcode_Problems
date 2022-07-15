@@ -6,9 +6,7 @@ class Solution:
             [1,0] , [-1,0] , [0,1] , [0,-1]
         ]
         
-        def isVal(i,j):
-            return i>=0 and j>=0 and i<len(grid) and j<len(grid[0]) and grid[i][j] == 1 and vis[i][j] == False
-        
+        isVal = lambda i,j : i>=0 and j>=0 and i<len(grid) and j<len(grid[0]) and grid[i][j] == 1 and vis[i][j] == False
         def dfs(i,j):
             if isVal(i,j) == False:
                 return 0
