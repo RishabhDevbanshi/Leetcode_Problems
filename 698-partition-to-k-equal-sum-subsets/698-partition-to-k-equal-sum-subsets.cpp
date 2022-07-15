@@ -5,6 +5,9 @@ public:
         if(sum%k)
             return false;
         
+        sort(nums.begin(),nums.end());
+        
+        
         int req = sum/k;
         
         map<pair<int,pair<int,pair<int,int>>>,bool> mp;
@@ -31,12 +34,10 @@ public:
                 if(bit || curr + nums[j] > req)
                     continue;
                 
-                // vis[j] = true;
                 vis ^= (1<<j);
                 bool ok = dfs(j+1,k,curr + nums[j]);
                 if(ok)
                     return mp[key] = true;
-                // vis[j] = false;
                 vis ^= (1<<j);
             }
             
