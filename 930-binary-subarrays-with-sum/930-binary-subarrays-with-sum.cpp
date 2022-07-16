@@ -1,18 +1,22 @@
 class Solution {
 public:
-    int numSubarraysWithSum(vector<int>& A, int S) {
-        return atMost(A, S) - atMost(A, S - 1);
-    }
-
-    int atMost(vector<int>& A, int S) {
-        if (S < 0) return 0;
-        int res = 0, i = 0, n = A.size();
-        for (int j = 0; j < n; j++) {
-            S -= A[j];
-            while (S < 0)
-                S += A[i++];
-            res += j - i + 1;
-        }
-        return res;
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        
+        auto atMost = [&](int sum){
+            int i = 0;
+            int tot = 0;
+            int curr = 0;
+            for(int j=0;j<size(nums);j++)
+            {
+                curr += nums[j];
+                while(i<=j and curr > sum)
+                    curr -= nums[i++];
+                tot += j - i + 1;
+            }
+            
+            return tot;
+        };
+        
+        return atMost(goal) - atMost(goal-1);
     }
 };
