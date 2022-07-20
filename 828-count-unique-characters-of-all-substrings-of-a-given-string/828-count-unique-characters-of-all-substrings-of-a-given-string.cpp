@@ -1,31 +1,30 @@
 class Solution {
 public:
     int uniqueLetterString(string s) {
-        unordered_map<char,vector<int>> mp;
         
-        for(int i=0;i<size(s);i++)
-            mp[s[i]].push_back(i);
-        
+        vector<int> idx(26,-1);
         vector<pair<int,int>> arr(size(s));
         
-        for(auto it : mp)
+        
+        for(int i=0;i<size(s);i++)
         {
-            int n = size(it.second);
-            
-            for(int i=0;i<n;i++)
-            {
-                //for left
-                if(i == 0)
-                    arr[it.second[i]].first = -1;
-                else
-                    arr[it.second[i]].first = it.second[i-1];
-                
-                //for right
-                if(i == n-1)
-                    arr[it.second[i]].second = size(s);
-                else
-                    arr[it.second[i]].second = it.second[i+1];
-            }
+            if(idx[s[i] - 'A'] == -1)
+                arr[i].first = -1;
+            else
+                arr[i].first = idx[s[i] - 'A'];
+            idx[s[i]-'A'] = i;
+        }
+        
+        for(auto &val : idx)
+            val = -1;
+        
+        for(int i=size(s)-1;i>=0;i--)
+        {
+            if(idx[s[i] - 'A'] == -1)
+                arr[i].second = size(s);
+            else
+                arr[i].second = idx[s[i] - 'A'];
+            idx[s[i] - 'A'] = i;
         }
         
         int tot=0;
