@@ -13,21 +13,14 @@ public:
             bool ok = true;
             for(auto &ch : word)
             {
-                bool flag = false;
-                for(auto &idx : mp[ch])
-                {
-                    if(idx > prev)
-                    {
-                        prev = idx;
-                        flag = true;
-                        break;
-                    }
-                }
-                if(!flag)
+                auto it = upper_bound(mp[ch].begin(),mp[ch].end(),prev);
+                if(it == mp[ch].end())
                 {
                     ok = false;
                     break;
                 }
+                else
+                    prev = *it;
             }
             tot += ok;
         }
