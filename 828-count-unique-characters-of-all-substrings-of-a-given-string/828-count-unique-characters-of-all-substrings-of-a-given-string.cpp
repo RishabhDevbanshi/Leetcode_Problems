@@ -1,8 +1,8 @@
 class Solution {
 public:
     int uniqueLetterString(string s) {
-        
-        vector<int> idx(26,-1);
+        int idx[26];
+        memset(idx,-1,sizeof idx);
         vector<pair<int,int>> arr(size(s));
         
         
@@ -15,8 +15,7 @@ public:
             idx[s[i]-'A'] = i;
         }
         
-        for(auto &val : idx)
-            val = -1;
+        memset(idx,-1,sizeof idx);
         
         for(int i=size(s)-1;i>=0;i--)
         {
