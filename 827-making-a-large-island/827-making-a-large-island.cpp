@@ -57,7 +57,7 @@ public:
             {
                 if(grid[i][j] == 0)
                 {
-                    set<int> st;
+                    unordered_set<int> st;
                     int up = i>0 ? grid[i-1][j] : -1;
                     int down = i<size(grid)-1 ? grid[i+1][j] : -1;
                     int left = j>0 ? grid[i][j-1] : -1;
@@ -74,7 +74,7 @@ public:
                     
                     int x = 1;
                     for(auto &ele : st)
-                        x += mp[ele] ;
+                        x += mp[ele];
                     maxi = max(maxi,x);
                 }
             }
