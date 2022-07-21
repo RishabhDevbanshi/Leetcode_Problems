@@ -19,19 +19,10 @@ public:
                 return 0;
             int cnt = 1;
             vis[i][j] = true;
+            grid[i][j] = id;
             for(auto &[r,c] : dir)
                 cnt += i_size(i+r,j+c);
             return cnt;
-        };
-        
-        function<void(int,int,int)> dfs_fill = [&](int i,int j,int sz){
-            if(!isVal(i,j) || grid[i][j] != 1)
-                return;
-            
-            grid[i][j] = sz;
-            
-            for(auto &[r,c] : dir)
-                dfs_fill(i+r,j+c,sz);
         };
         
         int maxi = 0;
@@ -44,7 +35,6 @@ public:
                 {
                     int sz = i_size(i,j);
                     maxi = max(maxi,sz);
-                    dfs_fill(i,j,id);
                     mp[id] = sz;
                     id++;
                 }
