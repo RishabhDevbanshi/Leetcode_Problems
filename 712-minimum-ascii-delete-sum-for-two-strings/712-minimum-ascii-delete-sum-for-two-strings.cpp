@@ -9,24 +9,27 @@ public:
             return tot;
         };
         
-        vector<vector<int>> dp(size(s1)+1,vector<int>(size(s2)+1,-1));
+        vector<vector<int>> dp(size(s1)+1,vector<int>(size(s2)+1));
         
-        function<int(int,int)> dfs = [&](int i,int j){
-            if(i == size(s1) or j == size(s2))
-                return i==size(s1) ? dead_end(s2,j) : dead_end(s1,i);
-            
-            if(dp[i][j] != -1)
-                return dp[i][j];
-            
-            if(s1[i] == s2[j])
-                return dp[i][j] = dfs(i+1,j+1);
-            else
-                return dp[i][j] = min(int(s1[i]) + dfs(i+1,j) , int(s2[j]) + dfs(i,j+1));
-        };
+        for(int i=1;i<=size(s2);i++)
+            dp[0][i] = dp[0][i-1] + s2[i-1];
+        
+        for(int i=1;i<=size(s1);i++)
+            dp[i][0] = dp[i-1][0] + s1[i-1];
+        
+        for(int i=1;i<=size(s1);i++)
+        {
+            for(int j=1;j<=size(s2);j++)
+            {
+                if(s1[i-1] == s2[j-1])
+                    dp[i][j] = dp[i-1][j-1];
+                else
+                    dp[i][j] = min(int(s1[i-1]) + dp[i-1][j] , int(s2[j-1]) + dp[i][j-1]);
+            }
+        }
         
         
-        
-        return dfs(0,0);
+        return dp.back().back();
         
     }
 };
