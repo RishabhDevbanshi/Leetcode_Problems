@@ -11,13 +11,17 @@ public:
         string num = to_string(n);
         long num_dig = size(num);
         
-        map<pair<bool,pair<long,long>>,long> mp;
+        // map<pair<bool,pair<long,long>>,long> mp;
+        long dp[2][11][1024];
+        memset(dp,-1,sizeof dp);
         
         function<long(long,long,long)> dfs = [&](long idx,bool ok,long vis)->long{
             if(idx == size(num))
                 return 1;
-            if(mp.find({ok,{idx,vis}}) != mp.end())
-                return mp[{ok,{idx,vis}}];
+            if(dp[ok][idx][vis] != -1)
+                return dp[ok][idx][vis];
+            // if(mp.find({ok,{idx,vis}}) != mp.end())
+                // return mp[{ok,{idx,vis}}];
             long LMT = ok ? num[idx] - '0' : 9;
             long ways = 0;
             for(int i=0;i<=LMT;i++)
@@ -37,7 +41,7 @@ public:
                 vis ^= 1<<i;
             }
             
-            return mp[{ok,{idx,vis}}] = ways;
+            return dp[ok][idx][vis] = ways;
         };
         
         long tot = 0;
