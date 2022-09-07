@@ -6,12 +6,13 @@ public:
         
         sort(meetings.begin(),meetings.end());
         
-        unordered_map<long,long> mp;
+        // unordered_map<long,long> mp;
+        vector<int> freq(n+1);
         
-        set<long> st;
-        for(long i=0;i<n;i++) st.insert(i);
+        set<int> st;
+        for(int i=0;i<=n;i++) st.insert(i);
         
-        for(long i=0;i<size(meetings);i++)
+        for(int i=0;i<size(meetings);i++)
         {
             while(!pq.empty() and pq.top().first <= meetings[i][0])
             {
@@ -28,19 +29,16 @@ public:
             }
             
             pq.push({meetings[i][1] + add,*st.begin()});
-            mp[*st.begin()]++;
-            // cout<<"room = " << (*st.begin()) <<  "\n";
+            freq[*st.begin()]++;
             st.erase(st.begin());
         }
         
         long maxi = 0 , room = INT_MAX;
         
-        for(auto &[key,value] : mp)
+        for(int i=0;i<n;i++)
         {
-            // cout << key << " " << value << "\n";
-            if(value > maxi)
-                maxi = value , room = key;
-            else if(value == maxi) room = min(room,key);
+            // cout << freq[i] << " ";
+            if(freq[i] > maxi) maxi = freq[i] , room = i;
         }
         
         return room;
