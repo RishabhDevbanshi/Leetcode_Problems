@@ -13,7 +13,6 @@ public:
             if(power >= tokens[i]) power -= tokens[i] , tot++;
             else if(tot and i != end) tot-- , power += tokens[end--] , i--;
             else break;
-            // cout << i << " " << end << " " << power << " " << tot << "\n";
         }
                 
         return tot;
