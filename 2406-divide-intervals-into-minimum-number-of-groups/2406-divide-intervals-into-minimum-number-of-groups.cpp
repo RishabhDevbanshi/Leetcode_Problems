@@ -8,15 +8,15 @@ public:
         
         for(auto &v : intervals)
         {
-            if(!pq.empty() and pq.top() < v[0])
+            while(!pq.empty() and pq.top() < v[0])
                 pq.pop();
             pq.push(v[1]);
             // cout << pq.top() << "\n";
-            // cnt = max<int>(cnt,size(pq));
+            cnt = max<int>(cnt,size(pq));
         }
         
         
-        return size(pq);
+        return cnt;
         
     }
 };
