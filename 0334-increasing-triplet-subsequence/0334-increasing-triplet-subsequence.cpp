@@ -1,15 +1,17 @@
 class Solution {
 public:
     bool increasingTriplet(vector<int>& nums) {
-        multiset<int> a,b;
+        multiset<int> b;
         for(auto &val : nums)
             b.insert(val);
+        int mini = nums[0];
         for(auto &val : nums)
         {
             b.erase(b.find(val));
-            if(size(a) and *a.begin() < val and size(b) and *--b.end() > val)
+            if(mini < val and size(b) and *--b.end() > val)
                 return true;
-            a.insert(val);
+            // a.insert(val);
+            mini = min(mini,val);
         }
         
         return false;
