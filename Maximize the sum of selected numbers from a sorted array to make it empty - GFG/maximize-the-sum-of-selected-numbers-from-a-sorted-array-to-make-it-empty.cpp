@@ -7,27 +7,24 @@ using namespace std;
 class Solution{
     public:
     int maximizeSum(int a[], int n) {
-        unordered_map<int,int> m;
-        for(int i = 0; i < n; i++) {
-            m[a[i]]++;
-        }
-        int ans = 0;
-        for(int i = n-1; i >= 0; i--) {
-            bool ok = false;
-            if(m.find(a[i]) != m.end()) {
-                ans += a[i];
-                m[a[i]]--;
-                if(m[a[i]] == 0) m.erase(m.find(a[i]));
-                ok = true;
-            }
-            // m[a[i]]--;
-            if(m.find(a[i]-1) != m.end() and ok) {
-                m[a[i]-1]--;
-                if(m[a[i]-1] == 0) m.erase(m.find(a[i]-1));
-            }
-        }
-        return ans;
+        multiset<int,greater<int>> st;
+        for(int i=0;i<n;i++)
+            st.insert(a[i]);
         
+        int tot=0;
+        
+        while(!st.empty())
+        {
+            int x = *st.begin();
+            st.erase(st.begin());
+            
+            if(st.find(x-1) != st.end())
+                st.erase(st.find(x-1));
+            
+            tot += x;
+        }
+        
+        return tot;
     }
 
 };
