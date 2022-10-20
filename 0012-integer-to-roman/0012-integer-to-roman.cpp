@@ -1,11 +1,107 @@
 class Solution {
 public:
     string intToRoman(int num) {
-        string ones[] = {"","I","II","III","IV","V","VI","VII","VIII","IX"};
-        string tens[] = {"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"};
-        string hrns[] = {"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"};
-        string ths[]={"","M","MM","MMM"};
+        int level  = 0;
         
-        return ths[num/1000] + hrns[(num%1000)/100] + tens[(num%100)/10] + ones[num%10];
+        string res = "";
+        
+        while(num)
+        {
+            int dig = num%10;
+            num /= 10;
+            
+            if(level == 0)
+            {
+                if(dig < 4)
+                {
+                    while(dig--)
+                        res += 'I';
+                }
+                else if(dig == 4)
+                {
+                    res += "IV";
+                }
+                else if(dig == 5)
+                {
+                    res += "V";
+                }
+                else if(dig < 9)
+                {
+                    res += "V";
+                    dig -= 5;
+                    while(dig--)
+                        res += 'I';
+                }
+                else if(dig == 9)
+                {
+                    res += "IX";
+                }
+            }
+            else if(level == 1)
+            {
+                if(dig < 4)
+                {
+                    while(dig--)
+                        res = "X" + res;;
+                }
+                else if(dig == 4)
+                {
+                    res = "XL" + res;
+                }
+                else if(dig == 5)
+                {
+                    res = "L" + res;
+                }
+                else if(dig < 9)
+                {
+                    string tmp = "L";
+                    dig -= 5;
+                    while(dig--)
+                        tmp += 'X';
+                    res = tmp +  res;
+                }
+                else if(dig == 9)
+                {
+                    res = "XC" + res;
+                }
+            }
+            else if(level == 2)
+            {
+                if(dig < 4)
+                {
+                    while(dig--)
+                        res = "C" + res;
+                }
+                else if(dig == 4)
+                {
+                    res = "CD" + res;
+                }
+                else if(dig == 5)
+                {
+                    res = "D" + res;
+                }
+                else if(dig < 9)
+                {
+                    string tmp = "D";
+                    dig -= 5;
+                    while(dig--)
+                        tmp += 'C';
+                    res = tmp + res;
+                }
+                else if(dig == 9)
+                {
+                    res = "CM" + res;
+                }
+            }
+            else
+            {
+                while(dig--)
+                    res = 'M' + res;
+            }
+            
+            ++level;
+        }
+        
+        return res;
     }
 };
