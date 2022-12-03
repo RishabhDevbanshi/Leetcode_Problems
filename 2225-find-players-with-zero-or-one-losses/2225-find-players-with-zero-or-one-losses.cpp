@@ -1,29 +1,28 @@
 class Solution {
 public:
     vector<vector<int>> findWinners(vector<vector<int>>& matches) {
-        vector<int> lossesCount(100001, -1);
-
-        for (auto& match : matches) {
-            int winner = match[0], loser = match[1];
-            if (lossesCount[winner] == -1) {
-                lossesCount[winner] = 0;
-            }
-            if (lossesCount[loser] == -1) {
-                lossesCount[loser] = 1;
-            } else {
-                lossesCount[loser]++;
-            }
+        vector<vector<int>> arr(2);
+        
+        map<int,int> mp;
+        
+        for(auto &match : matches)
+        {
+            mp[match[1]]++;
+            if(mp.find(match[0]) == mp.end())
+                mp[match[0]] = 0;
         }
-
-        vector<vector<int>> answer(2, vector<int>());
-        for (int i = 1; i < 100001; ++i) {
-            if (lossesCount[i] == 0) {
-                answer[0].push_back(i);
-            } else if (lossesCount[i] == 1) {
-                answer[1].push_back(i);
-            }
+        
+        for(auto &it : mp)
+        {
+            if(it.second == 0)
+                arr[0].push_back(it.first);
+            else if(it.second == 1)
+                arr[1].push_back(it.first);
         }
-
-        return answer;
+        
+        // sort(arr[0].begin(),arr[0].begin());
+        // sort(arr[1].begin(),arr[1].begin());
+        
+        return arr;
     }
 };
