@@ -15,28 +15,15 @@ public:
         
         long maxi = 0 , sum = 0;
         long mod = 1000000007;
-        
-        function<void(TreeNode *)> in = [&](TreeNode *node){
-            if(!node)
-                return;
-            in(node->left);
-            sum += node->val;
-            in(node->right);
-        };
-        
-        in(root);
-        
         function<long(TreeNode *)> dfs = [&](TreeNode *node)->long{
             if(!node)
                 return 0;
             long curr = node->val + dfs(node->left) + dfs(node->right);
             long ot = sum - curr;
             maxi = max<long>(maxi,ot * curr);
-            // maxi %=;
-            
             return curr;
         };
-        
+        sum = dfs(root);
         dfs(root);
         
         return maxi%mod;
