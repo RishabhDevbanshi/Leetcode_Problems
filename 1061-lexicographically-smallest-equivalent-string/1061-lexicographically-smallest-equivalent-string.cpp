@@ -1,45 +1,29 @@
 class Solution {
 public:
     string smallestEquivalentString(string s1, string s2, string baseStr) {
+        vector<int> par(26);
+        iota(par.begin(),par.end(),0);
         
-        map<char,char> mp;
-        for(int i=0;i<26;i++)
-            mp['a'+i] = 'a'+i;
-        
-        function<char(char)> findPar = [&](char node){
-            if(node == mp[node])
+        function<int(int)> findPar = [&](int node){
+            if(node == par[node])
                 return node;
-            return mp[node] = findPar(mp[node]);
+            return par[node] = findPar(par[node]);
         };
         
-        function<void(char,char)> unon = [&](char u,char v){
-            // cout << u << " " << v << " -> ";
+        function<void(int,int)> unon = [&](int u,int v){
             u = findPar(u) , v = findPar(v);
-            // cout << u << " " << v << "\n";
-            if(u == v)
-            {
-                // cout << "map -> ";
-                // for(auto &it : mp)
-                // cout << "{ " <<  it.first << " " << it.second <<  "} , "; cout << "\n";
-                return;
-            }
-            else if(u<v)
-                mp[v] = u;
+            if(u<v)
+                par[v] = u;
             else
-                mp[u] = v;
-            // cout << "map -> ";
-                // for(auto &it : mp)
-                // cout << "{ " <<  it.first << " " << it.second <<  "} , "; cout << "\n";
+                par[u] = v;
         };
-        
-        
+                
         for(int i=0;i<size(s1);i++)
-            unon(s1[i],s2[i]);
+            unon(s1[i]-'a',s2[i]-'a');
         
-        string res = "";
         for(auto &ch : baseStr)
-            res += findPar(ch);
+            ch = 'a'+findPar(ch-'a');
         
-        return res;
+        return baseStr;
     }
 };
