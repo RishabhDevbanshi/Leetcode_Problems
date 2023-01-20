@@ -2,8 +2,9 @@ class Solution {
 public:
     vector<vector<int>> findSubsequences(vector<int>& nums) {
         vector<vector<int>> res;
-        set<vector<int>> st;
         vector<int> arr;
+        set<vector<int>> st;
+        
         
         function<void(int,int)> dfs = [&](int idx,int pidx){
             if(idx >= size(nums))
@@ -21,14 +22,11 @@ public:
                 dfs(idx+1,idx);
                 arr.pop_back();
             }
-            
-            return;
         };
-        
         
         dfs(0,-1);
         
-        for(auto v : st) res.push_back(v);
+        for(auto &ele : st) res.push_back(ele);
         
         return res;
     }
