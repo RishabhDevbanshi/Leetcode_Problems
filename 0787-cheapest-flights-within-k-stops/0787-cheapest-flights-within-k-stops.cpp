@@ -2,37 +2,17 @@ class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
         
-        vector<pair<int,int>> g[n];
-        for(auto &flight : flights)
-            g[flight[0]].push_back({flight[1],flight[2]});
+        vector<int> tmp(n,1e8);
+        tmp[src]=0;
         
-        typedef array<int,3> vi;
-        priority_queue<vi,vector<vi>,greater<vi>> pq;
-        pq.push({0,src,0});
-        
-        vector<int> steps(n,INT_MAX);
-        // dist[src]=;
-        
-        while(!pq.empty())
+        for(int times=0;times<=k;times++)
         {
-            auto fr = pq.top();
-            pq.pop();
-            
-            int cost=fr[0] , node=fr[1], stops=fr[2];
-            if(steps[node] < stops || stops > k+1)
-                continue;
-            steps[node] = stops;
-            if(node == dst)
-                return cost;
-            // if(dist[node] < cost)
-                // continue;
-            
-            for(auto &[child,wt] : g[node])
-            {
-                    pq.push({cost+wt,child,stops+1});
-            }
+            vector<int> dist(tmp);
+            for(auto &flight : flights)
+                dist[flight[1]] = min<int>(dist[flight[1]],tmp[flight[0]]+flight[2]);
+            tmp = dist;
         }
         
-        return -1;
+        return tmp[dst] == 1e8 ? -1 : tmp[dst];
     }
 };
