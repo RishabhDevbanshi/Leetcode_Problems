@@ -1,32 +1,29 @@
 class Solution {
 public:
     vector<int> findAnagrams(string s, string p) {
-        vector<int> sa(26,0) , pa(26,0) , res;
-        if(size(s) < size(p))
-            return res;
+        if(size(p) > size(s))
+            return {};
+        vector<int> fp(26) , fs(26);
+        for(auto &ch : p)
+            fp[ch-'a']++;
+        int start=0,end=0;
+        while(end<size(p))
+            fs[s[end++]-'a']++;
+        vector<int> res;
         
-        for(int i=0;i<size(p);i++)
+        if(fs == fp) 
+            res.push_back(start);
+        
+        while(end < size(s))
         {
-            sa[s[i]-'a']++;
-            pa[p[i]-'a']++;
-        }
-        
-        int back = 0;
-        
-        if(sa == pa)
-            res.push_back(back);
-        
-        
-        for(int i=size(p);i<size(s);i++)
-        {
-            sa[s[back++]-'a']--;
-            sa[s[i]-'a']++;
+            fs[s[start++]-'a']--;
+            fs[s[end++]-'a']++;
             
-            if(sa == pa)
-                res.push_back(back);
+            if(fp == fs)
+                res.push_back(start);
         }
+        
         
         return res;
-        
     }
 };
